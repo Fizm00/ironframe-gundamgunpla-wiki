@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Cpu } from 'lucide-react';
+import { Cpu, Scale } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { usePublicMobileSuitList } from '@/hooks/usePublicMobileSuitList';
 import { LoadingState } from '@/components/common/LoadingState';
@@ -8,6 +8,8 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { PublicPageHeader } from '@/components/common/PublicPageHeader';
 import { SearchInput } from '@/components/common/SearchInput';
 import { Pagination } from '@/components/common/Pagination';
+import { useComparison } from '@/context/ComparisonContext';
+import { ComparisonFloatingBar } from '@/components/comparison/ComparisonFloatingBar';
 
 export function MobileSuitListPage() {
     const {
@@ -20,6 +22,18 @@ export function MobileSuitListPage() {
         search,
         handleSearch
     } = usePublicMobileSuitList();
+
+    const { addMobileSuit, isInComparison, removeMobileSuit } = useComparison();
+
+    const toggleComparison = (e: React.MouseEvent, suit: any) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isInComparison(suit._id)) {
+            removeMobileSuit(suit._id);
+        } else {
+            addMobileSuit(suit._id, suit.name);
+        }
+    };
 
     return (
         <div className="min-h-screen bg-background bg-grid-faint text-foreground pt-24 pb-12 px-4 md:px-8 transition-colors duration-300">
@@ -75,10 +89,21 @@ export function MobileSuitListPage() {
                                             <div className="w-full h-full flex items-center justify-center text-foreground/10 font-orbitron text-4xl">?</div>
                                         )}
 
-                                        <div className="absolute bottom-0 left-0 w-full p-2 bg-linear-to-t from-black/90 to-transparent">
-                                            <span className="font-mono text-[10px] text-neon-blue bg-black/50 backdrop-blur px-2 py-0.5 border border-neon-blue/30 inline-block truncate max-w-full">
+                                        <div className="absolute bottom-0 left-0 w-full p-2 bg-linear-to-t from-black/90 to-transparent flex justify-between items-end">
+                                            <span className="font-mono text-[10px] text-neon-blue bg-black/50 backdrop-blur px-2 py-0.5 border border-neon-blue/30 inline-block truncate max-w-[70%]">
                                                 {suit.series}
                                             </span>
+
+                                            <button
+                                                onClick={(e) => toggleComparison(e, suit)}
+                                                className={`p-2 rounded-full backdrop-blur-md border transition-all ${isInComparison(suit._id)
+                                                        ? 'bg-neon-blue/20 border-neon-blue text-neon-blue shadow-[0_0_10px_rgba(6,182,212,0.5)]'
+                                                        : 'bg-black/40 border-white/20 text-white/70 hover:bg-neon-blue/20 hover:border-neon-blue hover:text-neon-blue'
+                                                    }`}
+                                                title={isInComparison(suit._id) ? "Remove from Comparison" : "Add to Comparison"}
+                                            >
+                                                <Scale className="w-4 h-4" />
+                                            </button>
                                         </div>
                                     </div>
 
@@ -103,6 +128,8 @@ export function MobileSuitListPage() {
                     accentColorClass="text-neon-blue hover:border-neon-blue hover:text-neon-blue"
                 />
             </div>
+
+            <ComparisonFloatingBar />
         </div>
     );
 }

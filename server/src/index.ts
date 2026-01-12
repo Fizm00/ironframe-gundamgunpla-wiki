@@ -20,6 +20,7 @@ import supportRoutes from './routes/supportRoutes';
 import userRoutes from './routes/userRoutes';
 import analyticsRoutes from './routes/analyticsRoutes';
 import chatRoutes from './routes/chatRoutes';
+import relationshipsRoutes from './routes/relationships';
 import { errorHandler } from './middleware/errorMiddleware';
 
 import { geminiService } from './services/geminiService';
@@ -68,6 +69,7 @@ app.use('/api/support', supportRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/chat', chatRoutes);
+app.use('/api/relationships', relationshipsRoutes);
 
 app.use(errorHandler);
 

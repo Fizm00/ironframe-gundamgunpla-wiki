@@ -128,7 +128,3 @@ gundam-wiki/
 
 ## 🤝 Contributing
 Contributions are welcome! Please fork the repository and submit a pull request for any enhancements.
-
----
-
-*Powered by IronFrame Intelligence.*

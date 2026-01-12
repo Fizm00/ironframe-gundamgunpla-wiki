@@ -32,7 +32,7 @@ export function StatsGrid({ stats }: StatsGridProps) {
                         <item.icon className={`w-6 h-6 ${item.color}`} />
                     </div>
                     <h3 className="text-3xl font-orbitron font-bold text-gray-900 dark:text-white mb-1">
-                        {item.value}
+                        {String(item.value)}
                     </h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-mono">
                         {item.label}

@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, Users, Shield, Clock, Crosshair, Box, LayoutDashboard, LogOut, Sun, Moon, Cpu, Flag, Database } from 'lucide-react';
+import { Menu, X, Users, Shield, Clock, Crosshair, Box, LayoutDashboard, LogOut, Sun, Moon, Cpu, Flag } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { authService } from '@/services/auth';
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
     { name: 'MOBILE SUITS', path: '/mobile-suits', icon: Cpu },
     { name: 'PILOTS', path: '/pilots', icon: Users },
     { name: 'FACTIONS', path: '/factions', icon: Flag },
+    { name: 'NETWORK', path: '/relationships', icon: Users },
     { name: 'TIMELINE', path: '/timeline', icon: Clock },
 ];
 
