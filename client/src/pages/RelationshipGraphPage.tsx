@@ -10,7 +10,7 @@ export function RelationshipGraphPage() {
                 titlePrefix="TACTICAL"
                 titleHighlight="NETWORK"
                 subtitle="FACTION & TECHNOLOGY RELATIONSHIP MATRIX"
-                highlightColorClass="from-emerald-400 to-cyan-500" // Matrix-like colors
+                highlightColorClass="from-emerald-400 to-cyan-500"
                 iconColorClass="text-emerald-400"
             >
                 <button className="px-4 py-2 bg-slate-900 border border-slate-700 rounded text-xs font-mono text-slate-400 hover:text-white hover:border-slate-500 transition-colors flex items-center gap-2">

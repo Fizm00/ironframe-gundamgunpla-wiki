@@ -60,7 +60,6 @@ function App() {
 
           <Route path="/relationships" element={<RelationshipGraphPage />} />
 
-          {/* Public Timeline Routes */}
           <Route path="/timeline" element={<PublicTimelineList />} />
           <Route path="/timeline/:id" element={<PublicTimelineDetail />} />
 
@@ -69,7 +68,6 @@ function App() {
               <Route index element={<Navigate to="dashboard" replace />} />
               <Route path="dashboard" element={<AdminOverview />} />
 
-              {/* Admin Timeline - TODO: Update to support Eras */}
               <Route path="timeline" element={<TimelineList />} />
               <Route path="timeline/new" element={<TimelineEditor />} />
               <Route path="timeline/:id/edit" element={<TimelineEditor />} />

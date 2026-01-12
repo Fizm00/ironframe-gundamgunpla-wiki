@@ -81,14 +81,12 @@ export const createMobileSuit = async (req: Request | any, res: Response, next: 
     try {
         const mobileSuit = await MobileSuit.create(req.body);
 
-        // Invalidate Cache
         const keys = await redis.keys('v2:mobile-suits:*');
         if (keys.length > 0) {
             await redis.del(keys);
         }
         await redis.del('mobile-suits:all');
 
-        // Log Activity
         await logActivity('Created', 'Gunpla', mobileSuit.name, req.user ? req.user.username : 'System');
 
         res.status(201).json(mobileSuit);
@@ -107,7 +105,6 @@ export const updateMobileSuit = async (req: Request | any, res: Response, next: 
                 runValidators: true
             });
 
-            // Invalidate Cache
             const keys = await redis.keys('v2:mobile-suits:*');
             if (keys.length > 0) {
                 await redis.del(keys);
@@ -115,7 +112,6 @@ export const updateMobileSuit = async (req: Request | any, res: Response, next: 
             await redis.del('mobile-suits:all');
             await redis.del(`mobile-suits:${req.params.id}`);
 
-            // Log Activity
             await logActivity('Updated', 'Gunpla', mobileSuit.name, req.user ? req.user.username : 'System');
 
             res.json(updatedMobileSuit);
@@ -135,7 +131,6 @@ export const deleteMobileSuit = async (req: Request | any, res: Response, next: 
         if (mobileSuit) {
             await mobileSuit.deleteOne();
 
-            // Invalidate Cache
             const keys = await redis.keys('v2:mobile-suits:*');
             if (keys.length > 0) {
                 await redis.del(keys);
@@ -143,7 +138,6 @@ export const deleteMobileSuit = async (req: Request | any, res: Response, next: 
             await redis.del('mobile-suits:all');
             await redis.del(`mobile-suits:${req.params.id}`);
 
-            // Log Activity
             await logActivity('Deleted', 'Gunpla', mobileSuit.name, req.user ? req.user.username : 'System');
 
             res.json({ message: 'Mobile Suit removed' });
@@ -156,8 +150,6 @@ export const deleteMobileSuit = async (req: Request | any, res: Response, next: 
     }
 };
 
-// @route   POST /api/mobile-suits/:id/image
-// @access  Private/Admin
 export const uploadImage = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
         if (!req.file) {
@@ -178,7 +170,6 @@ export const uploadImage = async (req: Request | any, res: Response, next: NextF
             throw new Error('Mobile Suit not found');
         }
 
-        // Invalidate Cache
         const keys = await redis.keys('v2:mobile-suits:*');
         if (keys.length > 0) {
             await redis.del(keys);

@@ -29,7 +29,6 @@ async function scrapeCharacters() {
     const visitedUrls = new Set<string>();
     let totalProcessed = 0;
 
-    // Limit for safety/testing, remove or increase for full run
     const MAX_CHARACTERS = 3000;
 
     while (nextUrl && totalProcessed < MAX_CHARACTERS) {
@@ -41,7 +40,6 @@ async function scrapeCharacters() {
 
             const characterLinks: string[] = [];
 
-            // Extract Character Links
             $cat('.category-page__member-link').each((_: number, el: any) => {
                 const href = $cat(el).attr('href');
                 if (href && !href.includes('Category:') && !href.includes('User:') && !visitedUrls.has(href)) {
@@ -52,7 +50,6 @@ async function scrapeCharacters() {
 
             console.log(`   Found ${characterLinks.length} new characters.`);
 
-            // Process each character
             for (const charUrl of characterLinks) {
                 if (totalProcessed >= MAX_CHARACTERS) break;
 
@@ -63,17 +60,13 @@ async function scrapeCharacters() {
                     const $ = cheerio.load(charHtml);
                     const imageUrl = $('.portable-infobox .pi-image-thumbnail').attr('src')?.split('/revision')[0] || '';
 
-                    // Aggressively remove non-text elements to prevent HTML pollution
-                    // @ts-ignore
                     $('script, style, img, figure, video, audio, .gallery, .thumb, .wikia-gallery-item, .reference, .noprint').remove();
 
                     const name = $('#firstHeading').text().trim();
 
-                    // Find first meaningful paragraph for intro
                     let intro = '';
                     const $paragraphs = $('#mw-content-text > .mw-parser-output > p');
 
-                    // Iterate and find first p that has substantial text (avoiding image captions/empty lines)
                     for (let i = 0; i < $paragraphs.length; i++) {
                         const text = $($paragraphs[i]).text().trim();
                         if (text.length > 50 && !text.includes('Aside')) {
@@ -81,7 +74,6 @@ async function scrapeCharacters() {
                             break;
                         }
                     }
-                    // Fallback if strict check fails
                     if (!intro) intro = $('#mw-content-text p').first().text().trim();
 
                     const extractSection = (regex: RegExp) => {
@@ -108,7 +100,6 @@ async function scrapeCharacters() {
                     const skills = extractSection(/Skills|Abilities|Capabilities/i);
                     const notes = extractSection(/Notes|Trivia|Novelization/i);
 
-                    // Profile (Infobox)
                     const profile: Record<string, string> = {};
                     $('.portable-infobox .pi-data').each((_: number, el: any) => {
                         const label = $(el).find('.pi-data-label').text().trim();
@@ -116,9 +107,6 @@ async function scrapeCharacters() {
                         if (label && value) profile[label] = value;
                     });
 
-
-
-                    // Mecha & Vehicles
                     const mecha: string[] = [];
                     const vehicles: string[] = [];
 
@@ -140,7 +128,6 @@ async function scrapeCharacters() {
                     extractList('Mecha', mecha);
                     extractList('Vehicles', vehicles);
 
-                    // Upsert DB
                     await LoreCharacter.findOneAndUpdate(
                         { url: charUrl },
                         {
@@ -160,14 +147,13 @@ async function scrapeCharacters() {
                     );
 
                     totalProcessed++;
-                    await delay(200); // Polite delay
+                    await delay(200);
 
                 } catch (err: any) {
                     console.error(`   Failed to scrape character ${charUrl}: ${err.message}`);
                 }
             }
 
-            // Next Page Pagination
             const $nextBtn = $cat('.category-page__pagination-next');
             if ($nextBtn.length) {
                 nextUrl = $nextBtn.attr('href') || null;

@@ -7,8 +7,6 @@ import { MobileSuitChart } from "@/components/admin/analytics/MobileSuitChart";
 import { GrowthChart } from "@/components/admin/analytics/GrowthChart";
 import { FactionChart } from "@/components/admin/analytics/FactionChart";
 import { TimelineChart } from "@/components/admin/analytics/TimelineChart";
-
-// New Components
 import { StatsGrid } from "@/components/admin/dashboard/StatsGrid";
 import { RecentActivity } from "@/components/admin/dashboard/RecentActivity";
 import { SystemStatus } from "@/components/admin/dashboard/SystemStatus";

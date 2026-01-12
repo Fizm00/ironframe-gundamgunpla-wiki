@@ -13,8 +13,6 @@ export const chatController = {
                 return res.status(400).json({ message: "Query is required" });
             }
 
-            // 1. RAG: Retrieve Context from Database
-            // search across multiple collections (naively) for now
             const [msResults, pilotResults, factionResults] = await Promise.all([
                 LoreMobileSuit.find(
                     { $text: { $search: query } },
@@ -32,7 +30,6 @@ export const chatController = {
                 ).sort({ score: { $meta: "textScore" } }).limit(3).lean()
             ]);
 
-            // 2. Format Context
             let contextData = "";
 
             msResults.forEach(ms => {
@@ -51,7 +48,6 @@ export const chatController = {
                 contextData = "No specific database records found for this query.";
             }
 
-            // 3. Call AI
             const answer = await geminiService.chatWithHaro(query, contextData);
 
             res.json({ answer, contextUsed: msResults.length + pilotResults.length + factionResults.length });

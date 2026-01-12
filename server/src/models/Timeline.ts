@@ -4,8 +4,8 @@ export interface ITimeline extends Document {
     name: string;
     description: string;
     imageUrl?: string;
-    series: string[]; // List of series in this timeline
-    order: number; // For sorting eras chronologically (UC first, etc)
+    series: string[];
+    order: number;
     createdAt: Date;
     updatedAt: Date;
 }

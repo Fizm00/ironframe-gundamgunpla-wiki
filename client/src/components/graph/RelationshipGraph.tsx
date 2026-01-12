@@ -3,7 +3,6 @@ import { ReactFlow, Controls, Background, Panel } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { Loader2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
-
 import { FactionNode } from './nodes/FactionNode';
 import { PilotNode } from './nodes/PilotNode';
 import { MSNode } from './nodes/MSNode';
@@ -30,7 +29,6 @@ export function RelationshipGraph() {
 
     return (
         <div className="w-full h-[85vh] bg-slate-950 relative overflow-hidden rounded-2xl border border-slate-800 shadow-2xl">
-            {/* Immersive Cyber Background */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-size-[60px_60px] opacity-10 pointer-events-none"></div>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(6,182,212,0.05)_0%,transparent_50%)] pointer-events-none"></div>
 
@@ -76,7 +74,6 @@ export function RelationshipGraph() {
                 </Panel>
             </ReactFlow>
 
-            {/* Side Detail Panel (Animate In/Out) */}
             <AnimatePresence>
                 {selectedNode && (
                     <DataPanel node={selectedNode} onClose={clearSelection} />

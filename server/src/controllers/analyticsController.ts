@@ -6,9 +6,6 @@ import { Pilot } from '../models/Pilot';
 import { Timeline } from '../models/Timeline';
 import { TimelineEvent } from '../models/TimelineEvent';
 
-// @desc    Get dashboard statistics
-// @route   GET /api/analytics/stats
-// @access  Private/Admin
 export const getStats = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const [
@@ -27,7 +24,6 @@ export const getStats = async (req: Request, res: Response, next: NextFunction) 
             TimelineEvent.countDocuments()
         ]);
 
-        // Mock trends for now (random between -5% and +15%)
         const getTrend = () => {
             const val = Math.floor(Math.random() * 20) - 5;
             return { value: `${val > 0 ? '+' : ''}${val}%`, direction: val >= 0 ? 'up' : 'down' };
@@ -46,9 +42,6 @@ export const getStats = async (req: Request, res: Response, next: NextFunction) 
     }
 };
 
-// @desc    Get faction distribution (Pilots count per faction)
-// @route   GET /api/analytics/factions
-// @access  Private/Admin
 export const getFactionDistribution = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const topFactions = await Pilot.aggregate([
@@ -78,9 +71,6 @@ export const getFactionDistribution = async (req: Request, res: Response, next: 
     }
 };
 
-// @desc    Get timeline distribution (Events per Era)
-// @route   GET /api/analytics/timeline
-// @access  Private/Admin
 export const getTimelineDistribution = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const eventsPerTimeline = await TimelineEvent.aggregate([
@@ -109,13 +99,8 @@ export const getTimelineDistribution = async (req: Request, res: Response, next:
     }
 };
 
-// @desc    Get Mobile Suit Type Distribution
-// @route   GET /api/analytics/mobile-suits
-// @access  Private/Admin
 export const getMobileSuitStats = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // Attempt to categorize by name if "type" field isn't reliable or present
-        // Regex classification
         const gundams = await MobileSuit.countDocuments({ name: { $regex: 'Gundam', $options: 'i' } });
         const zakus = await MobileSuit.countDocuments({ name: { $regex: 'Zaku', $options: 'i' } });
         const gms = await MobileSuit.countDocuments({ name: { $regex: 'GM', $options: 'i' } });
@@ -134,13 +119,8 @@ export const getMobileSuitStats = async (req: Request, res: Response, next: Next
     }
 };
 
-// @desc    Get Growth Stats (Mocked for now)
-// @route   GET /api/analytics/growth
-// @access  Private/Admin
 export const getGrowthStats = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        // In a real app, we'd aggregate User.createdAt
-        // Mocking last 6 months
         const months = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         const userGrowth = [12, 19, 30, 45, 60, 85];
         const pilotGrowth = [5, 12, 18, 25, 40, 55];

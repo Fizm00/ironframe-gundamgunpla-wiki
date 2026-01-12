@@ -44,7 +44,6 @@ const UserSchema: Schema = new Schema({
     timestamps: true
 });
 
-// Hash password before saving
 UserSchema.pre('save', async function () {
     const user = this as unknown as IUser;
 
@@ -58,7 +57,6 @@ UserSchema.pre('save', async function () {
 
 UserSchema.methods.comparePassword = async function (password: string): Promise<boolean> {
     const user = this as unknown as IUser;
-    // Ensure we compare against the hash
     return await bcrypt.compare(password, user.passwordHash);
 };
 

@@ -13,35 +13,29 @@ export interface Faction {
     leaders: string[];
     organizationType?: string;
 
-    // Deep Structured Data (Infobox)
     purpose?: string;
     sphereOfInfluence?: string;
     allies: string[];
     enemies: string[];
     firstSeen?: string;
     lastSeen?: string;
-    appearances: string[]; // Anime/Manga titles
-    information?: string; // General info block
+    appearances: string[];
+    information?: string;
 
-    // Rich Text / Lore Fields
     history?: string;
     government?: string;
-    military?: string; // General Military Description
+    military?: string;
     behindTheScenes?: string;
     technologies?: string;
 
-    // Lists
     vehicles: string[];
     mobileWeapons: string[];
     miscellaneous: string[];
 
-    // Structured Forces
     forces: {
         name: string;
         description?: string;
         imageUrl?: string;
-
-        // Force Specific Deep Data
         purpose?: string;
         ledBy: string[];
         parent?: string;
@@ -50,18 +44,12 @@ export interface Faction {
         enemies: string[];
         firstSeen?: string;
         lastSeen?: string;
-
         headquarters?: string;
-
-        // Force Rich Text
         history?: string;
-
-        // Force Lists
         branches: string[];
         majorMilitaryBases: string[];
-        members: string[]; // Notable members
+        members: string[];
         militaryRanks: string[];
-
         mobileWeapons: string[];
         vehicles: string[];
         teams: string[];

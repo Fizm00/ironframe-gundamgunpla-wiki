@@ -47,7 +47,6 @@ export function PilotEditor() {
                             <AdminInput<Partial<LoreCharacter>> label="Pilot Name *" name="name" register={register} rules={{ required: true }} />
                             <AdminInput<Partial<LoreCharacter>> label="Series / Timeline" name="series" register={register} />
 
-                            {/* Profile Fields */}
                             <AdminInput<Partial<LoreCharacter>> label="Rank" name="profile.Rank" register={register} />
                             <AdminInput<Partial<LoreCharacter>> label="Affiliation" name="profile.Affiliation" register={register} />
 
@@ -65,8 +64,6 @@ export function PilotEditor() {
                     </AdminSection>
 
                     <AdminSection title="Service Record">
-                        {/* Assuming mecha is string[] but treating as comma separated string for UI simplicity if ListInput doesn't support direct array binding well without control, 
-                            Actually AdminListInput is designed for this. */}
                         <AdminListInput<Partial<LoreCharacter>> label="Assigned Units (Mecha)" name="mecha" control={control} description="List mobile suits piloted, one per line." />
                         <AdminListInput<Partial<LoreCharacter>> label="Vehicles / Other" name="vehicles" control={control} description="List other vehicles, one per line." />
                     </AdminSection>

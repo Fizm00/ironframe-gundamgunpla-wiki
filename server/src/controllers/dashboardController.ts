@@ -1,48 +1,38 @@
 
 import os from 'os';
 import { Request, Response, NextFunction } from 'express';
-import { MobileSuit } from '../models/MobileSuit'; // Gunpla Kits
+import { MobileSuit } from '../models/MobileSuit';
 import { Pilot } from '../models/Pilot';
 import { Faction } from '../models/Faction';
-import { LoreMobileSuit } from '../models/LoreMobileSuit'; // Total Units
+import { LoreMobileSuit } from '../models/LoreMobileSuit';
 import { LoreCharacter } from '../models/LoreCharacter';
 import { ActivityLog } from '../models/ActivityLog';
 import redis from '../config/redis';
-// @route   GET /api/dashboard/stats
-// @access  Private/Admin
 import mongoose from 'mongoose';
 
-// @route   GET /api/dashboard/stats
-// @access  Private/Admin
 export const getDashboardStats = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const cacheKey = 'dashboard:stats:v4'; // Increment version to force refresh
+        const cacheKey = 'dashboard:stats:v4';
         const cachedData = await redis.get(cacheKey);
 
         if (cachedData) {
             return res.json(JSON.parse(cachedData));
         }
 
-        // Calculate 30 days ago date for "vs last month" comparison
         const thirtyDaysAgo = new Date();
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-        // Get Real-time Database Stats
         const dbStats = await mongoose.connection.db?.stats();
         const dbSizeMB = dbStats ? (dbStats.dataSize / 1024 / 1024).toFixed(2) : '0';
 
-        // Get Real-time Redis Stats
         const redisInfo = await redis.info();
-        // Parse Redis Info for Hit Rate
         const hitsMatch = redisInfo.match(/keyspace_hits:(\d+)/);
         const missesMatch = redisInfo.match(/keyspace_misses:(\d+)/);
         const hits = hitsMatch ? parseInt(hitsMatch[1]) : 0;
         const misses = missesMatch ? parseInt(missesMatch[1]) : 0;
         const totalOps = hits + misses;
-        // Default to 100% if no ops yet (fresh server)
         const cacheEfficiency = totalOps > 0 ? ((hits / totalOps) * 100).toFixed(1) : '100';
 
-        // Parallel execution for performance
         const [
             totalUnits,
             unitsLastMonth,
@@ -54,7 +44,6 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
             recentActivities,
             unitsPerFaction
         ] = await Promise.all([
-            // Current Totals
             LoreMobileSuit.countDocuments(),
             LoreMobileSuit.countDocuments({ createdAt: { $lt: thirtyDaysAgo } }),
 
@@ -73,7 +62,6 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
             ])
         ]);
 
-        // Helper to calculate percentage change
         const calculateTrend = (current: number, previous: number) => {
             if (previous === 0) return current > 0 ? 100 : 0;
             return Number((((current - previous) / previous) * 100).toFixed(1));
@@ -83,7 +71,6 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
         const gunplaTrend = calculateTrend(totalGunpla, gunplaLastMonth);
         const pilotTrend = calculateTrend(totalPilots, pilotsLastMonth);
 
-        // Calculate Real System Load (Memory Usage)
         const totalMem = os.totalmem();
         const freeMem = os.freemem();
         const usedMem = totalMem - freeMem;
@@ -95,9 +82,9 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
             totalPilots,
             totalFactions,
             systemStatus: {
-                memoryUsage,      // % of RAM used
-                dbSizeMB,         // MongoDB Data Size in MB
-                cacheEfficiency   // Redis Hit Rate %
+                memoryUsage,
+                dbSizeMB,
+                cacheEfficiency
             },
             recentActivities,
             chartData: {
@@ -109,7 +96,7 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
                     { name: 'Apr', units: 70, pilots: 45 },
                     { name: 'May', units: 90, pilots: 60 },
                     { name: 'Jun', units: totalUnits, pilots: totalPilots },
-                ] // Mocked for historical demo
+                ]
             },
             trends: {
                 units: unitTrend,
@@ -118,7 +105,6 @@ export const getDashboardStats = async (req: Request, res: Response, next: NextF
             }
         };
 
-        // Cache for 60 seconds (Real-time stats need faster refresh)
         await redis.setex(cacheKey, 60, JSON.stringify(stats));
 
         res.json(stats);

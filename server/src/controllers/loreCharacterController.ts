@@ -26,7 +26,7 @@ export const getCharacters = async (req: Request, res: Response, next: NextFunct
         }
 
         const characters = await LoreCharacter.find(query)
-            .select('name imageUrl profile mecha series') // Only select necessary fields
+            .select('name imageUrl profile mecha series')
             .sort({ name: 1 })
             .skip((page - 1) * limit)
             .limit(limit);
@@ -64,13 +64,11 @@ export const createCharacter = async (req: Request | any, res: Response, next: N
     try {
         const character = await LoreCharacter.create(req.body);
 
-        // Invalidate Cache
         const keys = await redis.keys('lore-characters:*');
         if (keys.length > 0) {
             await redis.del(keys);
         }
 
-        // Log Activity
         await logActivity('Created', 'Pilot', character.name, req.user ? req.user.username : 'System');
 
         res.status(201).json(character);
@@ -89,13 +87,11 @@ export const updateCharacter = async (req: Request | any, res: Response, next: N
                 runValidators: true
             });
 
-            // Invalidate Cache
             const keys = await redis.keys('lore-characters:*');
             if (keys.length > 0) {
                 await redis.del(keys);
             }
 
-            // Log Activity
             await logActivity('Updated', 'Pilot', character.name, req.user ? req.user.username : 'System');
 
             res.json(updatedCharacter);
@@ -115,13 +111,11 @@ export const deleteCharacter = async (req: Request | any, res: Response, next: N
         if (character) {
             await character.deleteOne();
 
-            // Invalidate Cache
             const keys = await redis.keys('lore-characters:*');
             if (keys.length > 0) {
                 await redis.del(keys);
             }
 
-            // Log Activity
             await logActivity('Deleted', 'Pilot', character.name, req.user ? req.user.username : 'System');
 
             res.json({ message: 'Character removed' });
@@ -154,7 +148,6 @@ export const uploadImage = async (req: Request | any, res: Response, next: NextF
             throw new Error('Character not found');
         }
 
-        // Invalidate Cache
         const keys = await redis.keys('lore-characters:*');
         if (keys.length > 0) {
             await redis.del(keys);

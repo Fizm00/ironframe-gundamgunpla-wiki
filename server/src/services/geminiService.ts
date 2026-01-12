@@ -57,17 +57,29 @@ ${userQuery}
 `;
 
         try {
+            const modelId = "gemini-2.5-flash";
+
             const response = await ai.models.generateContent({
-                model: "gemini-2.5-flash",
-                contents: systemPrompt,
+                model: modelId,
+                contents: [
+                    {
+                        role: "user",
+                        parts: [
+                            { text: systemPrompt }
+                        ]
+                    }
+                ]
             });
 
-            // The new SDK response structure might be slightly different, but .text property usually exists on the response object directly or via candidates.
-            // Documentation example: console.log(response.text);
-            return response.text as string;
-        } catch (error) {
-            console.error("Gemini API Error:", error);
-            return "System Error! System Error! Haro needs maintenance!";
+            if (response && response.text) {
+                return response.text;
+            }
+
+            return "Analysis inconclusive. Please refine query.";
+
+        } catch (error: any) {
+            console.error("Gemini API Detailed Error:", JSON.stringify(error, null, 2));
+            return `System Error! Haro malfunctioned! (Reason: ${error.message || "Unknown"})`;
         }
     }
 };

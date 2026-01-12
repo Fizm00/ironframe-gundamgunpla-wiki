@@ -3,9 +3,6 @@ import { Pilot } from '../models/Pilot';
 import redis from '../config/redis';
 import { logActivity } from '../utils/activityLogger';
 
-// @desc    Get all pilots
-// @route   GET /api/pilots
-// @access  Public
 export const getPilots = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const cacheKey = 'pilots:all';
@@ -25,9 +22,6 @@ export const getPilots = async (req: Request, res: Response, next: NextFunction)
     }
 };
 
-// @desc    Get single pilot
-// @route   GET /api/pilots/:id
-// @access  Public
 export const getPilotById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
@@ -52,16 +46,12 @@ export const getPilotById = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-// @desc    Create a pilot
-// @route   POST /api/pilots
-// @access  Private/Admin
 export const createPilot = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
         const pilot = await Pilot.create(req.body);
 
         await redis.del('pilots:all');
 
-        // Log Activity
         await logActivity('Created', 'Pilot', pilot.name, req.user ? req.user.username : 'System');
 
         res.status(201).json(pilot);
@@ -70,9 +60,6 @@ export const createPilot = async (req: Request | any, res: Response, next: NextF
     }
 };
 
-// @desc    Update a pilot
-// @route   PUT /api/pilots/:id
-// @access  Private/Admin
 export const updatePilot = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
         const pilot = await Pilot.findById(req.params.id);
@@ -86,7 +73,6 @@ export const updatePilot = async (req: Request | any, res: Response, next: NextF
             await redis.del('pilots:all');
             await redis.del(`pilots:${req.params.id}`);
 
-            // Log Activity
             await logActivity('Updated', 'Pilot', pilot.name, req.user ? req.user.username : 'System');
 
             res.json(updatedPilot);
@@ -99,9 +85,6 @@ export const updatePilot = async (req: Request | any, res: Response, next: NextF
     }
 };
 
-// @desc    Delete a pilot
-// @route   DELETE /api/pilots/:id
-// @access  Private/Admin
 export const deletePilot = async (req: Request | any, res: Response, next: NextFunction) => {
     try {
         const pilot = await Pilot.findById(req.params.id);
@@ -112,7 +95,6 @@ export const deletePilot = async (req: Request | any, res: Response, next: NextF
             await redis.del('pilots:all');
             await redis.del(`pilots:${req.params.id}`);
 
-            // Log Activity
             await logActivity('Deleted', 'Pilot', pilot.name, req.user ? req.user.username : 'System');
 
             res.json({ message: 'Pilot removed' });

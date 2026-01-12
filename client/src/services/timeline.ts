@@ -15,7 +15,7 @@ export interface TimelineEvent {
     date: string;
     title: string;
     description: string;
-    timeline: string; // ID of the Era
+    timeline: string;
 }
 
 export interface TimelineDetail extends Timeline {
@@ -23,13 +23,11 @@ export interface TimelineDetail extends Timeline {
 }
 
 export const timelineService = {
-    // Get all Eras (Timelines)
     getAll: async () => {
         const response = await api.get<Timeline[]>('/timeline');
         return response.data;
     },
 
-    // Get Era Detail with Events
     getById: async (id: string) => {
         const response = await api.get<TimelineDetail>(`/timeline/${id}`);
         return response.data;

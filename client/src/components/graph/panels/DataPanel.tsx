@@ -11,7 +11,6 @@ type DataPanelProps = {
 export const DataPanel = ({ node, onClose }: DataPanelProps) => {
     if (!node) return null;
 
-    // Determine Theme Colors based on Type
     const themeColor =
         node.type === 'faction' ? 'text-neon-blue border-neon-blue' :
             node.type === 'pilot' ? 'text-emerald-500 border-emerald-500' :
@@ -34,7 +33,6 @@ export const DataPanel = ({ node, onClose }: DataPanelProps) => {
             exit={{ x: 400, opacity: 0 }}
             className="absolute top-4 right-4 w-96 bottom-4 bg-slate-900/95 border-l border-slate-700 backdrop-blur-2xl shadow-2xl overflow-hidden flex flex-col z-50 rounded-l-2xl"
         >
-            {/* Header */}
             <div className={`p-6 border-b border-slate-800 bg-linear-to-r ${bgGradient} to-transparent relative overflow-hidden`}>
                 <div className="absolute top-0 right-0 p-4 opacity-10">
                     <Crosshair className="w-32 h-32" />
@@ -51,23 +49,19 @@ export const DataPanel = ({ node, onClose }: DataPanelProps) => {
                 </div>
             </div>
 
-            {/* Content Scroll */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6 scrollbar-thin scrollbar-thumb-slate-700">
-                {/* Main Image */}
                 <div className="aspect-video w-full bg-slate-950 rounded-lg overflow-hidden border border-slate-800 relative group">
                     {node.data.image ? (
                         <img src={node.data.image} alt="Data" className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
                     ) : (
                         <div className="flex items-center justify-center h-full text-slate-700">NO VISUAL DATA</div>
                     )}
-                    {/* Corner Markers */}
                     <div className="absolute top-2 left-2 w-2 h-2 border-t border-l border-white/30"></div>
                     <div className="absolute top-2 right-2 w-2 h-2 border-t border-r border-white/30"></div>
                     <div className="absolute bottom-2 left-2 w-2 h-2 border-b border-l border-white/30"></div>
                     <div className="absolute bottom-2 right-2 w-2 h-2 border-b border-r border-white/30"></div>
                 </div>
 
-                {/* Description Block */}
                 <div className="space-y-2">
                     <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
                         <Info className="w-4 h-4 text-slate-500" />
@@ -78,14 +72,12 @@ export const DataPanel = ({ node, onClose }: DataPanelProps) => {
                     </p>
                 </div>
 
-                {/* Database ID */}
                 <div className="p-3 bg-slate-950 rounded border border-slate-800 font-mono text-xs text-slate-500 flex justify-between items-center">
                     <span>ID_REF</span>
                     <span className="text-slate-300">{node.id.substring(0, 12).toUpperCase()}...</span>
                 </div>
             </div>
 
-            {/* Footer Actions */}
             <div className="p-4 border-t border-slate-800 bg-slate-950/50">
                 <Link
                     to={detailRoute}

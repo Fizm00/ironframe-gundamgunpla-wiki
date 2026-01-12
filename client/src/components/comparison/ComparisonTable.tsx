@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { Loader2, AlertCircle, X } from 'lucide-react';
-
 import { useComparisonData } from './hooks/useComparisonData';
 import { getNormalizedSpec } from './utils/specUtils';
 
@@ -77,7 +76,6 @@ export function ComparisonTable() {
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-border/30">
-                    {/* General Info Row */}
                     <tr>
                         <td className="p-4 font-semibold font-orbitron text-xs text-foreground-muted uppercase bg-black/20 border-r border-border/30 sticky left-0 z-10 backdrop-blur-sm">Series</td>
                         {suits.map(suit => (
@@ -87,7 +85,6 @@ export function ComparisonTable() {
                         ))}
                     </tr>
 
-                    {/* Dynamic Specs Rows */}
                     {SPEC_KEYS.map(key => (
                         <tr key={key} className="hover:bg-neon-blue/5 transition-colors group">
                             <td className="p-4 font-medium font-orbitron text-xs text-foreground-muted uppercase bg-black/20 group-hover:bg-neon-blue/10 border-r border-border/30 sticky left-0 z-10 backdrop-blur-sm transition-colors">
@@ -101,7 +98,6 @@ export function ComparisonTable() {
                         </tr>
                     ))}
 
-                    {/* Armaments Row */}
                     <tr>
                         <td className="p-4 font-semibold font-orbitron text-xs text-foreground-muted uppercase bg-black/20 border-r border-border/30 sticky left-0 z-10 backdrop-blur-sm">Armaments</td>
                         {suits.map(suit => (

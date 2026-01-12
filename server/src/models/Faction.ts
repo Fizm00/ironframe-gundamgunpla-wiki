@@ -10,37 +10,31 @@ export interface IFaction extends Document {
     description?: string;
     imageUrl?: string;
     leaders: string[];
-    organizationType?: string; // Military, Government, Private, etc.
+    organizationType?: string;
 
-    // Deep Structured Data (Infobox)
     purpose?: string;
     sphereOfInfluence?: string;
     allies: string[];
     enemies: string[];
     firstSeen?: string;
     lastSeen?: string;
-    appearances: string[]; // Anime/Manga titles
-    information?: string; // General info block
+    appearances: string[];
+    information?: string;
 
-    // Rich Text / Lore Fields
     history?: string;
     government?: string;
-    military?: string; // General Military Description
+    military?: string;
     behindTheScenes?: string;
     technologies?: string;
 
-    // Lists
     vehicles: string[];
     mobileWeapons: string[];
     miscellaneous: string[];
 
-    // Structured Forces
     forces: {
         name: string;
         description?: string;
         imageUrl?: string;
-
-        // Force Specific Deep Data
         purpose?: string;
         ledBy: string[];
         parent?: string;
@@ -52,13 +46,10 @@ export interface IFaction extends Document {
 
         headquarters?: string;
 
-        // Force Rich Text
         history?: string;
-
-        // Force Lists
         branches: string[];
         majorMilitaryBases: string[];
-        members: string[]; // Notable members
+        members: string[];
         militaryRanks: string[];
 
         mobileWeapons: string[];
@@ -132,10 +123,8 @@ const FactionSchema: Schema = new Schema({
     timestamps: true
 });
 
-// Composite index for uniqueness
 FactionSchema.index({ name: 1, activeEra: 1 }, { unique: true });
 
-// Text index for Haro Search
 FactionSchema.index({ name: 'text', description: 'text', 'names.en': 'text' });
 
 export const Faction = mongoose.model<IFaction>('Faction', FactionSchema);

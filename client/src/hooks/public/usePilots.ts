@@ -12,7 +12,6 @@ export function usePilots() {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    // Debounce search term only
     const debouncedSearch = useDebounce(search, 500);
 
     useEffect(() => {

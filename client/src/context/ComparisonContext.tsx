@@ -14,7 +14,6 @@ const ComparisonContext = createContext<ComparisonContextType | undefined>(undef
 export function ComparisonProvider({ children }: { children: React.ReactNode }) {
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
-    // Load from local storage on mount
     useEffect(() => {
         const saved = localStorage.getItem('ironframe_comparison');
         if (saved) {
@@ -26,7 +25,6 @@ export function ComparisonProvider({ children }: { children: React.ReactNode }) 
         }
     }, []);
 
-    // Save to local storage on select
     useEffect(() => {
         localStorage.setItem('ironframe_comparison', JSON.stringify(selectedIds));
     }, [selectedIds]);

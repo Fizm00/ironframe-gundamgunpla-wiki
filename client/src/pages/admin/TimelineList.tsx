@@ -45,7 +45,6 @@ export function TimelineList() {
             header: "Events",
             accessor: (_timeline) => (
                 <div className="text-xs text-gray-500 dark:text-gray-400 font-mono">
-                    {/* We don't have event count in the basic list yet, maybe added later. For now placeholder or length if populated */}
                     View Details
                 </div>
             )
@@ -70,10 +69,6 @@ export function TimelineList() {
                     <h1 className="text-3xl font-orbitron font-bold text-gray-900 dark:text-white mb-2">Timeline Eras</h1>
                     <p className="text-gray-500 dark:text-gray-400 text-sm">Manage timeline eras and their descriptions.</p>
                 </div>
-                {/* Optional: Add button if we allow creating new eras manually */}
-                {/* <Link to="/admin/timeline/new" className="bg-brand-500 text-white font-bold font-orbitron px-4 py-2 rounded hover:bg-brand-600 transition flex items-center shadow-lg hover:shadow-brand-500/25">
-                    <Plus className="w-4 h-4 mr-2" /> New Era
-                </Link> */}
             </div>
 
             <div className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden backdrop-blur-sm shadow-sm">

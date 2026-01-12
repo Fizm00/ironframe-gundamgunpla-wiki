@@ -85,14 +85,10 @@ export const uploadMobileSuitImage = async (req: Request, res: Response) => {
     }
 };
 
-// ------------------------------------------------------------------
-// Create Logic
-// ------------------------------------------------------------------
 export const createLoreMobileSuit = async (req: Request, res: Response) => {
     try {
         const { name, url } = req.body;
 
-        // Basic validation
         if (!name || !url) {
             return res.status(400).json({ message: 'Name and URL are required' });
         }
@@ -109,9 +105,6 @@ export const createLoreMobileSuit = async (req: Request, res: Response) => {
     }
 };
 
-// ------------------------------------------------------------------
-// Update Logic
-// ------------------------------------------------------------------
 export const updateLoreMobileSuit = async (req: Request, res: Response) => {
     try {
         const suit = await LoreMobileSuit.findById(req.params.id);
@@ -132,9 +125,6 @@ export const updateLoreMobileSuit = async (req: Request, res: Response) => {
     }
 };
 
-// ------------------------------------------------------------------
-// Delete Logic
-// ------------------------------------------------------------------
 export const deleteLoreMobileSuit = async (req: Request, res: Response) => {
     try {
         const suit = await LoreMobileSuit.findById(req.params.id);
@@ -157,21 +147,15 @@ export const getLoreMobileSuitsBatch = async (req: Request, res: Response) => {
             return res.json({});
         }
 
-        // Create expanded query set
         const cleanNames = names.map(n => {
-            // Remove citations [1], [2]
             let clean = n.replace(/\[\d+\]/g, '').trim();
-            // Remove (variants) for fallback
             const base = clean.replace(/\s*\(.*?\)/g, '').trim();
-            // Extract Model Number (e.g. RGM-79, MS-06, RX-78-2)
-            // Pattern: start of string, letters-numbers, maybe punctuation
             const modelMatch = n.match(/^([A-Z]+-[A-Z0-9]+(?:-[A-Z0-9]+)?)/i);
             const model = modelMatch ? modelMatch[1] : '';
 
             return { original: n, clean, base, model };
         });
 
-        // Collect all potential terms to search
         const searchTerms = new Set<string>();
         cleanNames.forEach(x => {
             if (x.clean.length > 2) searchTerms.add(x.clean);
@@ -179,8 +163,6 @@ export const getLoreMobileSuitsBatch = async (req: Request, res: Response) => {
             if (x.model.length > 3) searchTerms.add(x.model);
         });
 
-        // Search for any documents matching these terms (contains match)
-        // We use $or with regex for each term
         const regexQueries = Array.from(searchTerms).map(term => ({
             name: { $regex: term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), $options: 'i' }
         }));
@@ -193,16 +175,7 @@ export const getLoreMobileSuitsBatch = async (req: Request, res: Response) => {
 
         const imageMap: Record<string, string> = {};
 
-        // Match them back
         names.forEach(originalName => {
-            // 1. Try Specific Match (Original or Clean)
-            // We want the DB name to CONTAIN the search term? 
-            // No, usually we want the DB name to BE the search term, or close.
-            // But here we are doing Reverse: List has "GM", DB has "RGM-79 GM". -> DB contains Name.
-            // List has "GM (RFV)", DB has "RGM-79 GM". -> Name contains DB? 
-
-            // Strategy:
-            // Find a suit where suit.name contains baseName OR baseName contains suit.name
 
             let clean = originalName.replace(/\[\d+\]/g, '').trim();
             let base = clean.replace(/\s*\(.*?\)/g, '').trim();
@@ -211,18 +184,13 @@ export const getLoreMobileSuitsBatch = async (req: Request, res: Response) => {
 
             const cleanRegex = new RegExp(clean.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i');
 
-            // 1. Try Specific Match
             let match = suits.find(s => cleanRegex.test(s.name) || (s.name.includes(clean)));
 
-            // 2. Base Name Fallback
             if (!match && base.length > 2) {
                 match = suits.find(s => s.name.includes(base) || base.includes(s.name));
             }
 
-            // 3. Model Number Fallback (High Confidence)
             if (!match && model.length > 3) {
-                // Strict start match for model number to avoid false positives?
-                // or contains. "RGM-79" should match "RGM-79 GM".
                 match = suits.find(s => s.name.includes(model));
             }
 

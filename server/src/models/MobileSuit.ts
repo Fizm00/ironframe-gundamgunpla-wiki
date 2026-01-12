@@ -7,10 +7,10 @@ export interface IMobileSuit extends Document {
     operator: string;
     description: string;
     imageUrl: string;
-    height: number; // in meters
-    weight: number; // in tons
+    height: number;
+    weight: number;
     armor: string;
-    powerOutput: number; // in kW
+    powerOutput: number;
     scale: string;
     price: number;
     armaments: string[];
@@ -42,7 +42,6 @@ const MobileSuitSchema: Schema = new Schema({
     timestamps: true
 });
 
-// Index for search
 MobileSuitSchema.index({ name: 'text', modelNumber: 'text', description: 'text' });
 
 export const MobileSuit = mongoose.model<IMobileSuit>('MobileSuit', MobileSuitSchema);

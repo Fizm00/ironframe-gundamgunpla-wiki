@@ -9,7 +9,6 @@ export function useGraphEngine() {
     const [loading, setLoading] = useState(true);
     const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
-    // Initial Fetch (Roots)
     useEffect(() => {
         const fetchRoots = async () => {
             try {
@@ -32,7 +31,6 @@ export function useGraphEngine() {
         fetchRoots();
     }, [setNodes]);
 
-    // Handle Node Click -> Expand & Select
     const onNodeClick = useCallback(async (_event: React.MouseEvent, node: Node) => {
         setSelectedNodeId(node.id);
 
@@ -40,30 +38,20 @@ export function useGraphEngine() {
             const res = await api.get(`/relationships/network/${node.type}/${node.id}`);
             const { nodes: newNodesData, edges: newEdgesData } = res.data as GraphApiResponse;
 
-            // --- IMPROVED LAYOUT ALGORITHM ---
             const parentPos = node.position;
 
-            // Calculate angle from center (0,0) to parent
-            // If parent is at 0,0 (roots), assume downward spread
             const isRoot = parentPos.y === 0 && Math.abs(parentPos.x) > 0;
-            const centerAngle = isRoot ? Math.PI / 2 : Math.atan2(parentPos.y, parentPos.x); // Roots spread DOWN
+            const centerAngle = isRoot ? Math.PI / 2 : Math.atan2(parentPos.y, parentPos.x);
 
-            const expandRadius = isRoot ? 600 : 500; // Large radius to avoid overlap
+            const expandRadius = isRoot ? 600 : 500;
 
-            // Determine spread angle
             const totalSpread = isRoot ? Math.PI * 0.8 : Math.PI / 1.5;
-
-            // Filter unique new nodes
             const uniqueNewNodes = newNodesData.filter((n) => !nodes.some((existing) => existing.id === n.id));
 
             const newNodes: CustomNode[] = uniqueNewNodes.map((n, i) => {
-                // Distribute in an arc around the centerAngle
-                // i goes from 0 to length-1
-                // We want to center the arc around centerAngle
-
                 const count = uniqueNewNodes.length;
                 const offset = count > 1
-                    ? (i - (count - 1) / 2) * (totalSpread / (count + 1)) // Spread evenly within the totalSpread
+                    ? (i - (count - 1) / 2) * (totalSpread / (count + 1))
                     : 0;
 
                 const angle = centerAngle + offset;

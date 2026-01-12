@@ -13,7 +13,6 @@ import { upload } from '../config/upload';
 
 const router = express.Router();
 
-// Temp Public
 router.post('/seed', seedFactions);
 
 router.route('/')

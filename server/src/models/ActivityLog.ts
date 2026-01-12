@@ -2,10 +2,10 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IActivityLog extends Document {
-    action: string; // e.g., "Created", "Updated", "Deleted"
-    entity: string; // e.g., "Mobile Suit", "Pilot", "Gunpla"
-    details: string; // e.g., "RX-78-2 Gundam"
-    user: string; // Username or ID who performed the action
+    action: string;
+    entity: string;
+    details: string;
+    user: string;
     timestamp: Date;
 }
 

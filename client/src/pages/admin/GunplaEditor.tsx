@@ -38,7 +38,7 @@ export function GunplaEditor() {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <AdminImageUpload
                                 currentImageUrl={previewUrl || undefined}
-                                selectedImage={null} // We handle preview in hook/state, simpler to verify functionality
+                                selectedImage={null}
                                 onImageSelect={handleFileSelect}
                             />
                         </div>

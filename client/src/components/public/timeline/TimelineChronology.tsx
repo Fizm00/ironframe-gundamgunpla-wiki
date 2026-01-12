@@ -24,10 +24,8 @@ export function TimelineChronology({ events }: TimelineChronologyProps) {
                         transition={{ duration: 0.3 }}
                         className="relative pl-8 md:pl-12"
                     >
-                        {/* Dot */}
                         <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-background border-2 border-neon-cyan shadow-[0_0_10px_rgba(34,211,238,0.5)]" />
 
-                        {/* Content */}
                         <div className="flex flex-col md:flex-row md:items-start gap-4">
                             <div className="md:w-32 shrink-0 pt-1">
                                 <span className="font-mono text-neon-cyan font-bold bg-neon-cyan/10 px-2 py-1 rounded border border-neon-cyan/20 text-sm">

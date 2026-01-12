@@ -7,13 +7,8 @@ export const MSNode = ({ data, selected }: NodeProps<CustomNode>) => {
     return (
         <NodeWrapper selected={selected}>
             <div className={`relative w-48 transition-all duration-300 ${selected ? 'scale-105' : ''}`}>
-                {/* Tech Card Interface */}
                 <div className={`bg-slate-900/90 border rounded-lg overflow-hidden backdrop-blur-xl transition-colors duration-300 ${selected ? 'border-indigo-400 shadow-[0_0_20px_rgba(99,102,241,0.2)]' : 'border-indigo-500/20 shadow-lg'}`}>
-
-                    {/* Header Bar */}
                     <div className={`h-1 w-full ${selected ? 'bg-indigo-500' : 'bg-slate-800'}`}></div>
-
-                    {/* Image Area */}
                     <div className="h-28 w-full bg-slate-950 relative overflow-hidden group-hover:opacity-100">
                         {data.image ? (
                             <img src={data.image} alt={data.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
@@ -22,7 +17,6 @@ export const MSNode = ({ data, selected }: NodeProps<CustomNode>) => {
                         )}
                         <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-transparent to-transparent opacity-80"></div>
 
-                        {/* Tech Specs Overlay (Fake) */}
                         <div className="absolute top-2 right-2 flex flex-col gap-0.5 items-end opacity-70">
                             <div className="w-8 h-0.5 bg-indigo-400/50"></div>
                             <div className="w-5 h-0.5 bg-indigo-400/50"></div>
@@ -30,7 +24,6 @@ export const MSNode = ({ data, selected }: NodeProps<CustomNode>) => {
                         </div>
                     </div>
 
-                    {/* Info Block */}
                     <div className="p-3 relative">
                         <div className="text-xs font-bold text-indigo-300 font-orbitron truncate tracking-wide">{data.label}</div>
                         <div className="text-[9px] text-slate-500 font-mono truncate uppercase mt-0.5">{data.description || 'Unknown Unit'}</div>
@@ -41,7 +34,7 @@ export const MSNode = ({ data, selected }: NodeProps<CustomNode>) => {
                     </div>
                 </div>
 
-                {/* Connector Nodes (Decoration) */}
+
                 <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-500 rounded-full"></div>
                 <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-indigo-500 rounded-full"></div>
 

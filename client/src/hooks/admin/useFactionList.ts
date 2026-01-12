@@ -32,25 +32,21 @@ export function useFactionList() {
         }
     };
 
-    // Client-side pagination logic
     const totalItems = allFactions?.length || 0;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE) || 1;
     const paginatedFactions = allFactions?.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE) || [];
 
     return {
-        // State
         search,
         setSearch,
         page,
         setPage,
         isLoading,
 
-        // Data
         factions: paginatedFactions,
         totalItems,
         totalPages,
 
-        // Actions
         handleDelete
     };
 }

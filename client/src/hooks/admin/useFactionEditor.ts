@@ -29,7 +29,6 @@ export function useFactionEditor() {
     const { control, reset, watch, setValue } = form;
     const factionName = watch('name');
 
-    // Field Array for Forces
     const { fields: forceFields, append: appendForce, remove: removeForce } = useFieldArray({
         control,
         name: "forces"

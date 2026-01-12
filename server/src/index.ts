@@ -27,7 +27,7 @@ import { geminiService } from './services/geminiService';
 
 dotenv.config();
 connectDB();
-geminiService.testConnection(); // Verify AI connection
+geminiService.testConnection();
 
 
 const app = express();

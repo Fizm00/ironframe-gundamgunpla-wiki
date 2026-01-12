@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/User';
 
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
 export const getUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const keyword = req.query.search
@@ -22,9 +19,6 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction) 
     }
 };
 
-// @desc    Update user role
-// @route   PUT /api/users/:id/role
-// @access  Private/Admin
 export const updateUserRole = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await User.findById(req.params.id);
@@ -48,9 +42,6 @@ export const updateUserRole = async (req: Request, res: Response, next: NextFunc
     }
 };
 
-// @desc    Delete user
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
 export const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const user = await User.findById(req.params.id);

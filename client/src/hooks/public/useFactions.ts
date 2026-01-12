@@ -28,7 +28,6 @@ export function useFactions() {
         fetchFactions();
     }, [debouncedSearch]);
 
-    // Grouping helper
     const groupedFactions = factions.reduce((acc, faction) => {
         const era = faction.activeEra || 'Unknown Era';
         if (!acc[era]) acc[era] = [];
@@ -36,8 +35,7 @@ export function useFactions() {
         return acc;
     }, {} as Record<string, Faction[]>);
 
-    // Get sorted Eras (simple string sort for now, or define order constant)
-    // Defined Era Order
+
     const eraOrder = [
         "Universal Century",
         "Future Century",
@@ -45,11 +43,11 @@ export function useFactions() {
         "After War",
         "Correct Century",
         "Cosmic Era",
-        "Anno Domini", // User wrote "Amno Domini" but "Anno Domini" is correct for Gundam 00. I will check standard usage.
+        "Anno Domini",
         "Advanced Generation",
         "Regild Century",
         "Post Disaster",
-        "Build Fighters", // Often categorized separately
+        "Build Fighters",
         "Ad Stella"
     ];
 
@@ -57,13 +55,9 @@ export function useFactions() {
         const indexA = eraOrder.indexOf(a);
         const indexB = eraOrder.indexOf(b);
 
-        // If both are in the list, sort by index
         if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-        // If only A is in list, it comes first
         if (indexA !== -1) return -1;
-        // If only B is in list, it comes first
         if (indexB !== -1) return 1;
-        // Fallback to alphabetical for unknown eras
         return a.localeCompare(b);
     });
 

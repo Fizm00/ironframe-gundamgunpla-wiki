@@ -11,6 +11,5 @@ export const logActivity = async (action: string, entity: string, details: strin
         });
     } catch (error) {
         console.error('Failed to log activity:', error);
-        // Don't throw error to avoid blocking the main operation
     }
 };

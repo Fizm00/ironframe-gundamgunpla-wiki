@@ -3,16 +3,16 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ILoreMobileSuit extends Document {
     name: string;
     series: string;
-    faction?: string; // ObjectId represented as string
+    faction?: string;
     url: string;
     imageUrl?: string;
     description?: string;
     history?: string;
     design?: string;
-    production?: Record<string, string>; // Key-Value pairs like "Manufacturer": "Anaheim Electronics"
-    development?: Record<string, string>; // "Developed from": "RX-78-2"
-    specifications?: Record<string, string>; // "Height": "18.0m"
-    performance?: string | Record<string, string>; // "Max Speed": "100 km/h" or text block
+    production?: Record<string, string>;
+    development?: Record<string, string>;
+    specifications?: Record<string, string>;
+    performance?: string | Record<string, string>;
     armaments?: { category: string; items: string[] }[];
     variants?: string[];
     knownPilots?: string[];

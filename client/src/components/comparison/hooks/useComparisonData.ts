@@ -17,7 +17,6 @@ export function useComparisonData() {
 
             setLoading(true);
             try {
-                // Fetch all concurrently
                 const promises = selectedIds.map(id => loreService.getById(id));
                 const results = await Promise.all(promises);
                 setSuits(results);

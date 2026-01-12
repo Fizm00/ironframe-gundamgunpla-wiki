@@ -36,7 +36,6 @@ const PilotDetail = () => {
                     </Link>
 
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
-                        {/* LEFT COLUMN: VISUAL ID */}
                         <motion.div
                             initial={{ opacity: 0, x: -20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -66,7 +65,6 @@ const PilotDetail = () => {
                             </div>
                         </motion.div>
 
-                        {/* RIGHT COLUMN: PERSONNEL DATA */}
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
@@ -80,7 +78,6 @@ const PilotDetail = () => {
                                 </h3>
 
                                 <div className="space-y-6">
-                                    {/* BIO */}
                                     <div>
                                         <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
                                             <FileText className="w-3 h-3 mr-2" /> Overview
@@ -90,7 +87,6 @@ const PilotDetail = () => {
                                         </p>
                                     </div>
 
-                                    {/* PERSONALITY */}
                                     {character.personality && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
@@ -104,7 +100,6 @@ const PilotDetail = () => {
                                         </div>
                                     )}
 
-                                    {/* SKILLS */}
                                     {character.skills && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
@@ -118,7 +113,6 @@ const PilotDetail = () => {
                                         </div>
                                     )}
 
-                                    {/* PROFILE STATS */}
                                     {character.profile && Object.keys(character.profile).length > 0 && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
@@ -135,7 +129,6 @@ const PilotDetail = () => {
                                         </div>
                                     )}
 
-                                    {/* HISTORY */}
                                     {character.history && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
@@ -149,7 +142,6 @@ const PilotDetail = () => {
                                         </div>
                                     )}
 
-                                    {/* UNITS */}
                                     {character.mecha && character.mecha.length > 0 && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">
@@ -168,7 +160,6 @@ const PilotDetail = () => {
                                         </div>
                                     )}
 
-                                    {/* NOTES */}
                                     {character.notes && (
                                         <div>
                                             <h4 className="text-xs font-mono text-neon-green/70 mb-3 uppercase flex items-center">

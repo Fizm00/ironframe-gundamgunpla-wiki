@@ -18,7 +18,6 @@ export function TimelineCard({ timeline, index }: TimelineCardProps) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {/* Background Image */}
             <div className="relative h-48 shrink-0 overflow-hidden border-b border-white/5">
                 <div className={`absolute inset-0 bg-linear-to-t from-gray-950 via-transparent to-transparent z-10 duration-500 ${isHovered ? 'opacity-80' : 'opacity-100'}`} />
                 <img
@@ -33,7 +32,6 @@ export function TimelineCard({ timeline, index }: TimelineCardProps) {
                 </div>
             </div>
 
-            {/* Content */}
             <div className="relative p-5 flex flex-col grow">
                 <div className="flex items-center gap-2 mb-2 text-neon-cyan font-mono text-xs tracking-widest uppercase opacity-70">
                     <Calendar className="w-3 h-3" />

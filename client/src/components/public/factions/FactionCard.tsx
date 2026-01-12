@@ -17,7 +17,6 @@ export function FactionCard({ faction }: FactionCardProps) {
         <motion.div variants={item}>
             <Link to={`/factions/${faction._id}`} className="block group h-full">
                 <div className="bg-surface/30 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden h-full hover:border-neon-cyan/50 hover:shadow-[0_0_15px_rgba(0,188,212,0.15)] transition-all duration-300 flex flex-col relative">
-                    {/* Image Container */}
                     <div className="h-48 overflow-hidden relative border-b border-white/5">
                         <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10" />
                         {faction.imageUrl ? (
@@ -39,7 +38,6 @@ export function FactionCard({ faction }: FactionCardProps) {
                         </div>
                     </div>
 
-                    {/* Content */}
                     <div className="p-5 flex flex-col grow">
                         <h3 className="font-orbitron font-bold text-xl text-white mb-2 group-hover:text-neon-cyan transition-colors line-clamp-1" title={faction.name}>
                             {faction.name}
@@ -59,7 +57,6 @@ export function FactionCard({ faction }: FactionCardProps) {
                         </div>
                     </div>
 
-                    {/* Decorative Corner */}
                     <div className="absolute top-0 right-0 w-16 h-16 bg-linear-to-bl from-white/5 to-transparent pointer-events-none" />
                 </div>
             </Link>

@@ -16,7 +16,7 @@ export function useFactionImages(faction: Faction | undefined, activeTab: string
                     .catch(err => console.error('Failed to load weapon images', err));
             }
         }
-    }, [activeTab, faction?.mobileWeapons]); // Removed weaponImages from deps to avoid loop
+    }, [activeTab, faction?.mobileWeapons]);
 
     return weaponImages;
 }

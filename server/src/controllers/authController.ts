@@ -76,7 +76,6 @@ export const updateUserProfile = async (req: Request | any, res: Response, next:
             user.email = req.body.email || user.email;
 
             if (req.file) {
-                // Format path to be accessible via static route (e.g. /uploads/filename)
                 user.avatar = `/uploads/${req.file.filename}`;
             }
 
@@ -106,9 +105,8 @@ export const updateUserPassword = async (req: Request | any, res: Response, next
         if (user) {
             const { currentPassword, newPassword } = req.body;
 
-            // Check if current password matches
             if (await user.comparePassword(currentPassword)) {
-                user.passwordHash = newPassword; // Pre-save hook will hash it
+                user.passwordHash = newPassword;
                 await user.save();
                 res.json({ message: 'Password updated successfully' });
             } else {

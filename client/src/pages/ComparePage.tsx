@@ -34,7 +34,6 @@ export function ComparePage() {
             </PublicPageHeader>
 
             <div className="max-w-7xl mx-auto space-y-8">
-                {/* Comparison Table */}
                 <ComparisonTable />
             </div>
         </div>

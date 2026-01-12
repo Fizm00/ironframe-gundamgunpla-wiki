@@ -3,9 +3,6 @@ import { Timeline } from '../models/Timeline';
 import { TimelineEvent } from '../models/TimelineEvent';
 import redis from '../config/redis';
 
-// @desc    Get all timelines (eras)
-// @route   GET /api/timeline
-// @access  Public
 export const getTimelines = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const cacheKey = 'timelines:all';
@@ -17,7 +14,6 @@ export const getTimelines = async (req: Request, res: Response, next: NextFuncti
 
         const timelines = await Timeline.find({}).sort({ order: 1 });
 
-        // Cache for 1 hour
         await redis.setex(cacheKey, 3600, JSON.stringify(timelines));
 
         res.json(timelines);
@@ -26,9 +22,6 @@ export const getTimelines = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-// @desc    Get timeline details and events
-// @route   GET /api/timeline/:id
-// @access  Public
 export const getTimelineById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const cacheKey = `timeline:${req.params.id}`;
@@ -49,7 +42,6 @@ export const getTimelineById = async (req: Request, res: Response, next: NextFun
 
         const result = { ...timeline.toObject(), events };
 
-        // Cache for 1 hour
         await redis.setex(cacheKey, 3600, JSON.stringify(result));
 
         res.json(result);
